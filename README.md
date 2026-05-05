@@ -52,7 +52,7 @@ To publish your dashboard to a custom URL:
 ## 🛠 Raspberry Pi Setup
 
 ### 1. Required Packages
-Ensure your Raspberry Pi is up to date and has the necessary tools installed. We use `libcamera` for official Pi Cameras or `fswebcam` for USB webcams.
+Ensure your Raspberry Pi is up to date and has the necessary tools installed. We use `rpicam` for official Pi Cameras or `fswebcam` for USB webcams.
 
 ```bash
 sudo apt update
@@ -63,6 +63,10 @@ sudo apt install curl coreutils fswebcam python3
 If you are using an official Raspberry Pi Camera module, run this to verify it is connected correctly:
 ```bash
 rpicam-hello --list-cameras
+```
+To see a live image in your window (useful for focusing and positioning):
+```bash
+rpicam-hello -t 0
 ```
 *Tip: On the Pi Zero, ensuring the silver contacts on the ribbon cable face the PCB is the most common fix for connection issues.*
 
@@ -76,7 +80,7 @@ mkdir -p ~/PlantPhotos
 
 ## 📸 Camera Script Setup (`takephoto.py`)
 
-This project includes a robust `takephoto.py` script that automatically detects your hardware (e.g., Pi Zero vs. Pi 4) and supports both USB webcams and official Pi Cameras.
+This project includes a robust `takephoto.py` script that automatically detects your hardware (e.g., Pi Zero vs. Pi 4) and supports both USB webcams and official Pi Cameras. Set USE_PI_CAMERA = True for Pi Camera and False for USB Webcam.
 
 1. Create the file on your Pi:
    ```bash
