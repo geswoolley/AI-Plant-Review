@@ -7,8 +7,10 @@ export default async function handler(req: any, res: any) {
       return res.status(404).json({ error: 'No image available' });
     }
 
-    const doc = snapshot.docs[0].data();
+    const docSnap = snapshot.docs[0];
+    const doc = docSnap.data();
     return res.status(200).json({
+      id: docSnap.id,
       image: doc.image,
       timestamp: doc.timestamp,
     });

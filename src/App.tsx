@@ -75,6 +75,7 @@ export default function App() {
   const [healthScore, setHealthScore] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [remoteImage, setRemoteImage] = useState<string | null>(null);
+  const [remoteImageId, setRemoteImageId] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<number | null>(null);
   const [history, setHistory] = useState<any[]>([]);
   const lastAnalyzedRef = useRef<number | null>(null);
@@ -112,6 +113,7 @@ export default function App() {
           if (!prev || latest.timestamp > prev) {
             // It's a brand new upload!
             setRemoteImage(latest.image);
+            setRemoteImageId(latest.id);
             // Clear current analysis so the analyzer triggers for the new image
             setHealthScore(latest.score ?? null);
             setAiReport(latest.analysis ?? null);
@@ -137,6 +139,7 @@ export default function App() {
       if (res.ok) {
         const data = await res.json();
         setRemoteImage(data.image);
+        setRemoteImageId(data.id);
         setLastUpdated(data.timestamp);
         if (data.score !== undefined) setHealthScore(data.score);
         if (data.analysis !== undefined) setAiReport(data.analysis);
@@ -154,7 +157,7 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
-  const analyzePlant = async (image: string) => {
+  const analyzePlant = async (image: string, docId: string | null) => {
     setIsAnalyzing(true);
     setError(null);
     // Don't clear aiReport here immediately, as we might already have it from the snapshot
@@ -187,14 +190,12 @@ export default function App() {
         setHealthScore(data.score);
         setAiReport(data.analysis);
 
-        // Update persistence
-        // Note: UPLOAD_SECRET won't be available on client automatically unless VITE_
-        // But for local demo/preview it's often set. 
-        // We'll try, but the main thing is updating the local state.
+        // Persist the analysis onto the existing snapshot doc (not a new one)
         await fetch('/api/upload-image', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
+            id: docId,
             image,
             secret: (import.meta as any).env.VITE_UPLOAD_SECRET || "Caroline", // Fallback for demo
             score: data.score,
@@ -218,13 +219,13 @@ export default function App() {
       // If the incoming snapshot doesn't have a report, we trigger AI
       if (!aiReport && !isAnalyzing) {
         lastAnalyzedRef.current = lastUpdated;
-        analyzePlant(remoteImage);
+        analyzePlant(remoteImage, remoteImageId);
       } else if (aiReport) {
         // If snapshot ALREADY had a report, we just record that we've seen this one
         lastAnalyzedRef.current = lastUpdated;
       }
     }
-  }, [remoteImage, lastUpdated, aiReport, isAnalyzing]);
+  }, [remoteImage, remoteImageId, lastUpdated, aiReport, isAnalyzing]);
 
   return (
     <div className="min-h-screen bg-[#050a08] text-white font-sans selection:bg-accent-green selection:text-black flex flex-col p-6 md:p-10 overflow-y-auto">
@@ -234,7 +235,7 @@ export default function App() {
           <Leaf className="text-accent-green" size={24} />
           <div>
             <h1 className="text-2xl font-semibold tracking-tight text-white drop-shadow-md">
-              AI Plant Review
+              Plant Analysis Tool
             </h1>
             <p className="text-[11px] text-accent-green font-mono uppercase tracking-[2px] mt-0.5">
               {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Awaiting Uplink...'}
