@@ -238,7 +238,7 @@ export default function App() {
               Plant Analysis Tool
             </h1>
             <p className="text-[11px] text-accent-green font-mono uppercase tracking-[2px] mt-0.5">
-              {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Awaiting Uplink...'}
+              {lastUpdated ? new Date(lastUpdated).toLocaleString() : 'Awaiting new photo...'}
             </p>
           </div>
         </div>
@@ -246,7 +246,7 @@ export default function App() {
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-2 px-3.5 py-1.5 bg-accent-green/5 border border-accent-green/20 rounded-full text-[10px] uppercase tracking-wider text-accent-green">
             <div className={`w-1.5 h-1.5 bg-accent-green rounded-full ${isAnalyzing ? 'animate-ping' : 'animate-pulse'} shadow-[0_0_8px_currentColor]`} />
-            {isAnalyzing ? 'Analyzing Morphology...' : 'System Monitor Active'}
+            {isAnalyzing ? 'Analysing Morphology...' : 'Plant Monitor Active'}
           </div>
         </div>
       </header>
@@ -264,7 +264,7 @@ export default function App() {
             ) : (
               <div className="absolute inset-0 flex flex-col items-center justify-center opacity-20 bg-gradient-to-br from-[#132a1d] to-[#09170f]">
                 <Camera size={64} strokeWidth={1} />
-                <span className="mt-4 uppercase tracking-[0.2em] text-sm font-light">Waiting for Image Uplink...</span>
+                <span className="mt-4 uppercase tracking-[0.2em] text-sm font-light">Waiting for new photo...</span>
               </div>
             )}
             
@@ -274,7 +274,7 @@ export default function App() {
             {/* Overlay Metadata */}
             <div className="absolute bottom-6 left-6 pointer-events-none">
               <div className="bg-black/80 backdrop-blur-xl border border-white/10 px-3 py-1.5 rounded-lg text-[9px] font-mono text-accent-green shadow-xl">
-                CAM_01 // SOURCE: R-PI_UPLINK
+                CAM_01 // SOURCE: Windows webcam
               </div>
             </div>
           </div>
@@ -284,7 +284,7 @@ export default function App() {
         <aside className="flex flex-col gap-6">
           {/* Health Score Card */}
           <div className="glass-card">
-            <p className="text-[11px] uppercase tracking-[1.5px] text-text-dim mb-4">Vitality Score</p>
+            <p className="text-sm font-medium text-white/60 mb-4">Health Score</p>
             <div className="flex items-center gap-8">
               <div className="relative w-28 h-28 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90">
@@ -325,7 +325,7 @@ export default function App() {
 
           <div className="glass-card flex flex-col min-h-[400px] lg:flex-1">
             <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-              <p className="text-[11px] uppercase tracking-[1.5px] text-text-dim">Botanical Analysis</p>
+              <p className="text-sm font-medium text-white/60">Plant Analysis</p>
               <Zap size={14} className={isAnalyzing ? "text-accent-green animate-pulse" : "text-accent-green opacity-30"} />
             </div>
             
@@ -361,7 +361,7 @@ export default function App() {
                     className="p-4 bg-white/5 rounded-2xl border border-white/5"
                   >
                     <p className="text-xs font-light text-white/60 leading-relaxed text-center">
-                      Ready for the next uplink.
+                      Ready for the next photo.
                     </p>
                   </motion.div>
                 )}
@@ -373,7 +373,7 @@ export default function App() {
 
       {/* History Section */}
       <section className="mt-12 w-full">
-        <h2 className="text-[11px] uppercase tracking-[1.5px] text-text-dim mb-6 flex items-center gap-2">
+        <h2 className="text-sm font-medium text-white/60 mb-6 flex items-center gap-2">
           <Activity size={12} className="text-accent-green" />
           Snapshot History (Last 5)
         </h2>
