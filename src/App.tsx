@@ -174,11 +174,18 @@ export default function App() {
             },
           },
           {
+            // text: `You are an expert botanist. Analyze this plant from the snapshot provided by the IoT station. 
+            // Assess overall health (leaf color, texture, shape). 
+            // Provide a health score from 0 to 100 where 100 is perfectly healthy.
+            // Format your response as a JSON object with two keys: "score" (number) and "analysis" (markdown string).
+            // Identify the plant if possible. Focus strictly on visual health assessment and identifying pests/disease. Do NOT provide care advice.`,
             text: `You are an expert botanist. Analyze this plant from the snapshot provided by the IoT station. 
             Assess overall health (leaf color, texture, shape). 
             Provide a health score from 0 to 100 where 100 is perfectly healthy.
             Format your response as a JSON object with two keys: "score" (number) and "analysis" (markdown string).
-            Identify the plant if possible. Focus strictly on visual health assessment and identifying pests/disease. Do NOT provide care advice.`,
+            Identify the plant if possible. Focus strictly on visual health assessment and identifying pests/disease. Do NOT provide care advice.
+            You addressing a woman in her late 20s with this analysis, she owns the plant. Use some genz language, e.g. clock, low key, girl, rogue, 
+            slay, girlboss`,
           },
         ],
       });
@@ -228,13 +235,13 @@ export default function App() {
   }, [remoteImage, remoteImageId, lastUpdated, aiReport, isAnalyzing]);
 
   return (
-    <div className="min-h-screen bg-[#050a08] text-white font-sans selection:bg-accent-green selection:text-black flex flex-col p-6 md:p-10 overflow-y-auto">
+    <div className="min-h-screen bg-[#A3C077] text-[#173404] font-sans selection:bg-accent-green selection:text-white flex flex-col p-6 md:p-10 overflow-y-auto">
       {/* Top Navigation / Status Header */}
-      <header className="relative z-10 flex justify-between items-start mb-8 w-full shrink-0 bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-white/5 shadow-2xl">
+      <header className="relative z-10 flex justify-between items-start mb-8 w-full shrink-0 bg-white p-4 rounded-2xl shadow-sm">
         <div className="flex items-center gap-3">
           <Leaf className="text-accent-green" size={24} />
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-white drop-shadow-md">
+            <h1 className="text-2xl font-semibold tracking-tight text-[#173404]">
               Plant Analysis Tool
             </h1>
             <p className="text-[11px] text-accent-green font-mono uppercase tracking-[2px] mt-0.5">
@@ -244,7 +251,7 @@ export default function App() {
         </div>
         
         <div className="flex items-center gap-6">
-          <div className="flex items-center gap-2 px-3.5 py-1.5 bg-accent-green/5 border border-accent-green/20 rounded-full text-[10px] uppercase tracking-wider text-accent-green">
+          <div className="flex items-center gap-2 px-3.5 py-1.5 bg-accent-green/10 border border-accent-green/20 rounded-full text-[10px] uppercase tracking-wider text-accent-green">
             <div className={`w-1.5 h-1.5 bg-accent-green rounded-full ${isAnalyzing ? 'animate-ping' : 'animate-pulse'} shadow-[0_0_8px_currentColor]`} />
             {isAnalyzing ? 'Analysing Morphology...' : 'Plant Monitor Active'}
           </div>
@@ -254,26 +261,26 @@ export default function App() {
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 min-h-0">
         {/* Left Column: Visual Viewport */}
         <section className="flex flex-col gap-6 min-h-0 min-w-0 items-center justify-start">
-          <div className="relative w-full aspect-[3/4] lg:aspect-square bg-black/40 rounded-[32px] border border-glass-border overflow-hidden shadow-2xl flex items-center justify-center mt-2">
+          <div className="relative w-full aspect-[3/4] lg:aspect-square bg-white rounded-[32px] border border-glass-border overflow-hidden shadow-sm flex items-center justify-center mt-2">
             {remoteImage ? (
-              <img 
-                src={`data:image/jpeg;base64,${remoteImage}`} 
+              <img
+                src={`data:image/jpeg;base64,${remoteImage}`}
                 className="w-full h-full object-cover"
                 alt="Latest Plant Snapshot"
               />
             ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center opacity-20 bg-gradient-to-br from-[#132a1d] to-[#09170f]">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-[#173404]/30 bg-gradient-to-br from-[#EAF3DE] to-[#C0DD97]">
                 <Camera size={64} strokeWidth={1} />
                 <span className="mt-4 uppercase tracking-[0.2em] text-sm font-light">Waiting for new photo...</span>
               </div>
             )}
-            
+
             {/* Visual Overlays */}
-            <div className="absolute inset-0 pointer-events-none border-[12px] border-black/40" />
+            <div className="absolute inset-0 pointer-events-none border-[12px] border-black/10" />
 
             {/* Overlay Metadata */}
             <div className="absolute bottom-6 left-6 pointer-events-none">
-              <div className="bg-black/80 backdrop-blur-xl border border-white/10 px-3 py-1.5 rounded-lg text-[9px] font-mono text-accent-green shadow-xl">
+              <div className="bg-black/70 backdrop-blur-xl border border-white/10 px-3 py-1.5 rounded-lg text-[9px] font-mono text-white/90 shadow-xl">
                 CAM_01 // SOURCE: Windows webcam
               </div>
             </div>
@@ -284,7 +291,7 @@ export default function App() {
         <aside className="flex flex-col gap-6">
           {/* Health Score Card */}
           <div className="glass-card">
-            <p className="text-sm font-medium text-white/60 mb-4">Health Score</p>
+            <p className="text-sm font-medium text-text-dim mb-4">Health Score</p>
             <div className="flex items-center gap-8">
               <div className="relative w-28 h-28 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90">
@@ -295,7 +302,7 @@ export default function App() {
                     stroke="currentColor"
                     strokeWidth="5"
                     fill="transparent"
-                    className="text-white/5"
+                    className="text-black/5"
                   />
                   <motion.circle
                     cx="56"
@@ -314,7 +321,7 @@ export default function App() {
               </div>
               <div className="space-y-1">
                 <p className={`text-lg font-medium ${healthScore && healthScore > 70 ? 'text-accent-green' : 'text-orange-400'}`}>
-                  {healthScore ? (healthScore > 80 ? 'Optimal Condition' : healthScore > 60 ? 'Stable Growth' : 'Attention Required') : 'Analysis Pending'}
+                  {healthScore ? (healthScore > 80 ? 'Glow Up Era' : healthScore > 60 ? 'Its vibing' : 'Struggling fr') : 'Analysis Pending'}
                 </p>
                 <p className="text-xs text-text-dim leading-relaxed max-w-[200px]">
                   Visual assessment of morphology, color balance, and leaf texture.
@@ -324,8 +331,8 @@ export default function App() {
           </div>
 
           <div className="glass-card flex flex-col min-h-[400px] lg:flex-1">
-            <div className="flex items-center justify-between mb-6 border-b border-white/5 pb-4">
-              <p className="text-sm font-medium text-white/60">Plant Analysis</p>
+            <div className="flex items-center justify-between mb-6 border-b border-black/5 pb-4">
+              <p className="text-sm font-medium text-text-dim">Plant Analysis</p>
               <Zap size={14} className={isAnalyzing ? "text-accent-green animate-pulse" : "text-accent-green opacity-30"} />
             </div>
             
@@ -340,7 +347,7 @@ export default function App() {
                     className="space-y-6 pt-4"
                   >
                     {[1, 2, 3, 4].map(i => (
-                      <div key={i} className="h-6 bg-white/5 animate-pulse rounded w-full" style={{ animationDelay: `${i * 150}ms` }} />
+                      <div key={i} className="h-6 bg-black/5 animate-pulse rounded w-full" style={{ animationDelay: `${i * 150}ms` }} />
                     ))}
                   </motion.div>
                 ) : aiReport ? (
@@ -348,7 +355,7 @@ export default function App() {
                     key="report"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-xl prose prose-invert prose-xl max-w-none text-white/90 prose-p:leading-relaxed prose-p:my-6 prose-strong:text-accent-green prose-strong:font-bold prose-headings:text-white prose-headings:font-light prose-headings:tracking-tight border-l-4 border-accent-green/40 pl-8 py-2"
+                    className="text-xl prose prose-xl max-w-none text-[#173404]/90 prose-p:leading-relaxed prose-p:my-6 prose-strong:text-accent-green prose-strong:font-bold prose-headings:text-[#173404] prose-headings:font-light prose-headings:tracking-tight border-l-4 border-accent-green/40 pl-8 py-2"
                   >
                     <ReactMarkdown>{aiReport}</ReactMarkdown>
                   </motion.div>
@@ -358,9 +365,9 @@ export default function App() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="p-4 bg-white/5 rounded-2xl border border-white/5"
+                    className="p-4 bg-black/5 rounded-2xl border border-black/5"
                   >
-                    <p className="text-xs font-light text-white/60 leading-relaxed text-center">
+                    <p className="text-xs font-light text-text-dim leading-relaxed text-center">
                       Ready for the next photo.
                     </p>
                   </motion.div>
@@ -373,7 +380,7 @@ export default function App() {
 
       {/* History Section */}
       <section className="mt-12 w-full">
-        <h2 className="text-sm font-medium text-white/60 mb-6 flex items-center gap-2">
+        <h2 className="text-sm font-medium text-text-dim mb-6 flex items-center gap-2">
           <Activity size={12} className="text-accent-green" />
           Snapshot History (Last 5)
         </h2>
@@ -401,18 +408,18 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors" />
               </div>
-              <p className="text-[10px] font-mono text-white/40 group-hover:text-accent-green transition-colors">
+              <p className="text-[10px] font-mono text-text-dim group-hover:text-accent-green transition-colors">
                 {new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>
-              <p className="text-[9px] text-white/20 mt-0.5">
+              <p className="text-[9px] text-black/30 mt-0.5">
                 {new Date(item.timestamp).toLocaleDateString()}
               </p>
             </motion.div>
           )) : (
             [1, 2, 3, 4, 5].map(i => (
               <div key={i} className="glass-card !p-3 animate-pulse">
-                <div className="aspect-square bg-white/5 rounded-2xl mb-3" />
-                <div className="h-2 bg-white/5 rounded w-1/2" />
+                <div className="aspect-square bg-black/5 rounded-2xl mb-3" />
+                <div className="h-2 bg-black/5 rounded w-1/2" />
               </div>
             ))
           )}
@@ -421,27 +428,24 @@ export default function App() {
 
       <style>{`
         .glass-card {
-          background: rgba(255, 255, 255, 0.03);
-          backdrop-filter: blur(20px);
-          border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 32px;
           padding: 24px;
-          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+          box-shadow: 0 4px 16px 0 rgba(23, 52, 4, 0.08);
         }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(74, 222, 128, 0.4); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(23, 52, 4, 0.15); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(39, 80, 10, 0.4); }
       `}</style>
 
       {/* Global Alerts */}
       <AnimatePresence>
         {error && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-10 left-10 p-4 border border-alert-red bg-alert-red/10 backdrop-blur-md rounded-2xl flex items-center gap-3 text-alert-red font-medium text-xs z-50 uppercase tracking-widest shadow-2xl"
+            className="fixed bottom-10 left-10 p-4 border border-alert-red bg-white rounded-2xl flex items-center gap-3 text-alert-red font-medium text-xs z-50 uppercase tracking-widest shadow-md"
           >
             <AlertCircle size={16} />
             {error}
