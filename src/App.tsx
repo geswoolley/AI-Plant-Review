@@ -96,7 +96,7 @@ export default function App() {
 
   // Real-time history listener
   useEffect(() => {
-    const q = query(collection(clientDb, 'snapshots'), orderBy('timestamp', 'desc'), limit(5));
+    const q = query(collection(clientDb, 'snapshots'), orderBy('timestamp', 'desc'), limit(10));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map(doc => ({
         id: doc.id,
@@ -185,7 +185,7 @@ export default function App() {
             Format your response as a JSON object with two keys: "score" (number) and "analysis" (markdown string).
             Identify the plant if possible. Focus strictly on visual health assessment and identifying pests/disease. Do NOT provide care advice.
             You addressing a woman in her late 20s with this analysis, she owns the plant. Use some genz language, e.g. clock, low key, girl, rogue, 
-            slay, girlboss`,
+            slay, girlboss. This words are a guide, you can use a couple in the response maybe but dont overdo it.`,
           },
         ],
       });
@@ -382,7 +382,7 @@ export default function App() {
       <section className="mt-12 w-full">
         <h2 className="text-sm font-medium text-text-dim mb-6 flex items-center gap-2">
           <Activity size={12} className="text-accent-green" />
-          Snapshot History (Last 5)
+          Snapshot History (Last 10)
         </h2>
         
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -416,7 +416,7 @@ export default function App() {
               </p>
             </motion.div>
           )) : (
-            [1, 2, 3, 4, 5].map(i => (
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
               <div key={i} className="glass-card !p-3 animate-pulse">
                 <div className="aspect-square bg-black/5 rounded-2xl mb-3" />
                 <div className="h-2 bg-black/5 rounded w-1/2" />
