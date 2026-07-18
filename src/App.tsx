@@ -184,8 +184,9 @@ export default function App() {
             Provide a health score from 0 to 100 where 100 is perfectly healthy.
             Format your response as a JSON object with two keys: "score" (number) and "analysis" (markdown string).
             Identify the plant if possible. Focus strictly on visual health assessment and identifying pests/disease. Do NOT provide care advice.
-            You addressing a woman in her late 20s with this analysis, she owns the plant. Use some genz language, e.g. clock, low key, girl, rogue, 
-            slay, girlboss. This words are a guide, you can use a couple in the response maybe but dont overdo it.`,
+            You are addressing a woman in her late 20s with this analysis, she owns the plant. Use some genz language, e.g. clock, low key, girl, rogue, 
+            slay, girlboss. These words are a guide, you can use a couple in the response but dont overdo it on the lanaguage side.
+            Still provide a detailed analysis.`,
           },
         ],
       });
